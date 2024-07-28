@@ -29,7 +29,7 @@ def handle(conn, addr):
                 accept_encoding = accept_encoding.group() if accept_encoding is not None else\
                     "Content-Encoding: invalid-encoding"
                 encoding_protocol = filter(lambda x: x == "gzip", accept_encoding.split(" "))
-
+                print(encoding_protocol)
                 if encoding_protocol:
                     response = response + "Content-Encoding: gzip\r\n"
                 response = response + f"Content-Length: {content_length}\r\n\r\n{text}"
