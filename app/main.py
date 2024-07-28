@@ -25,7 +25,9 @@ def handle(conn, addr):
                 content_length = str(len(text))
                 response = "HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\n"
                 accept_encoding = re.search(r"Accept-Encoding: ([\w./!@#$%^&*()+=-]*)",
-                                            data_split[1].decode()).group()
+                                            data_split[1].decode())
+                accept_encoding = accept_encoding.group() if accept_encoding is not None else\
+                    "Content-Encoding: invalid-encoding"
                 encoding_protocol = accept_encoding.split(" ")[1]
                 if encoding_protocol == "gzip":
                     response = response + "Content-Encoding: gzip\r\n"
