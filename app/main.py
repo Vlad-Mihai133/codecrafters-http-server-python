@@ -19,7 +19,9 @@ def main():
         request_target_split = request_target.split(b"/")
         if request_target_split[1] == b"echo" and len(request_target_split) == 3:
             text = request_target_split[2]
-            response = b"HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: 3\r\n\r\n" + text
+            content_length = len(text).to_bytes()
+            response = (b"HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: " + content_length
+                        + b"\r\n\r\n" + text)
             conn.sendall(response)
         else:
             response = "HTTP/1.1 404 Not Found\r\n\r\n"
