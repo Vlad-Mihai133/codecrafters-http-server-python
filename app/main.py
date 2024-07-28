@@ -1,4 +1,5 @@
 import socket
+import re
 
 HOST = "localhost"
 PORT = 4221
@@ -19,6 +20,13 @@ def main():
         request_target_split = request_target.split(b"/")
         if request_target_split[1] == b"echo" and len(request_target_split) == 3:
             text = request_target_split[2].decode()
+            content_length = str(len(text))
+            response = ("HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: " + content_length
+                        + "\r\n\r\n" + text)
+            conn.sendall(response.encode())
+        elif request_target_split == b"/user-agent":
+            user_agent = re.search(r"User-Agent: ([a-zA-Z0-9./]*)", data_split[1].decode()).group()
+            text = user_agent.split(" ")[1]
             content_length = str(len(text))
             response = ("HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: " + content_length
                         + "\r\n\r\n" + text)
