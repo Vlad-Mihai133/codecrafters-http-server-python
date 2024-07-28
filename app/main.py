@@ -36,7 +36,7 @@ def handle(conn, addr):
             conn.sendall(response.encode())
         elif request_target_split[1] == b"files":
             dir_name = sys.argv[2]
-            file_name = request_target[7:]
+            file_name = request_target[7:].decode()
             print(dir_name + file_name)
             try:
                 with open(f"{dir_name}{file_name}", "r") as file:
