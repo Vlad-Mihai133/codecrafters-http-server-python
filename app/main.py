@@ -34,8 +34,8 @@ def handle(conn, addr):
                 if encoding_protocol:
                     response = response + "Content-Encoding: gzip\r\n"
                     text = gzip.compress(text)
-
-                response = response + f"Content-Type: text/plain\r\nContent-Length: {len(text.decode())}\r\n\r\n{text}"
+                    print(len(text))
+                response = response + f"Content-Type: text/plain\r\nContent-Length: {len(text)}\r\n\r\n{text}"
                 conn.sendall(response.encode())
             elif request_target == b"/user-agent":
                 # I used regex here to search for User-Agent literal string in case there would be more
