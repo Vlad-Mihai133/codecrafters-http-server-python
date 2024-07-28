@@ -40,10 +40,10 @@ def handle(conn, addr):
 
 def main():
     server_socket = socket.create_server((HOST, PORT), reuse_port=True)
-    conn, addr = server_socket.accept()  # wait for client
-    # handle(conn, addr)
-    thread = threading.Thread(target=handle, args=(conn, addr))
-    thread.start()
+    while True:
+        conn, addr = server_socket.accept()  # wait for client
+        # handle(conn, addr)
+        threading.Thread(target=handle, args=(conn, addr)).start()
 
 
 if __name__ == "__main__":
