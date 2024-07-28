@@ -24,7 +24,7 @@ def handle(conn, addr):
                 text = request_target[6:].decode()
                 content_length = str(len(text))
                 response = "HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\n"
-                accept_encoding = re.search(r"Accept-Encoding: ([\w./!@#$%^&*()+=-]*)",
+                accept_encoding = re.search(r"Accept-Encoding: ([\w./!@#$%^&*()+=?,;:' -]*)",
                                             data_split[1].decode())
                 accept_encoding = accept_encoding.group() if accept_encoding is not None else\
                     "Content-Encoding: invalid-encoding"
