@@ -28,7 +28,7 @@ def handle(conn, addr):
                                             data_split[1].decode())
                 accept_encoding = accept_encoding.group() if accept_encoding is not None else\
                     "Content-Encoding: invalid-encoding"
-                encoding_protocol = list(filter(lambda x: x == "gzip", accept_encoding.split(" ")))
+                encoding_protocol = list(filter(lambda x: x == "gzip" or x == "gzip,", accept_encoding.split(" ")))
                 print(encoding_protocol)
                 if encoding_protocol:
                     response = response + "Content-Encoding: gzip\r\n"
