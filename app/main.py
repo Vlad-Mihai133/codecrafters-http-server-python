@@ -33,7 +33,7 @@ def handle(conn, addr):
                 print(encoding_protocol)
                 if encoding_protocol:
                     response = response + "Content-Encoding: gzip\r\n"
-                    text = gzip.compress(text.encode())
+                    text = gzip.compress(text)
                     print(len(text))
                 response = response + f"Content-Type: text/plain\r\nContent-Length: {str(len(text))}\r\n\r\n{text}"
                 print(response)
