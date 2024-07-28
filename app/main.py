@@ -63,14 +63,10 @@ def handle(conn, addr):
             # in command-line: ./your_program.sh --directory {directory_name}
             dir_name = sys.argv[2]
             file_name = request_target[7:].decode()
-            try:
-                with open(f"{dir_name}{file_name}", "wb") as file:
-                    file.write(request_body)
-                response = "HTTP/1.1 201 Created\r\n\r\n"
-            except Exception as e:
-                response = "HTTP/1.1 404 Not Found\r\n\r\n"
-            finally:
-                conn.sendall(response.encode())
+            with open(f"{dir_name}{file_name}", "wb") as file:
+                file.write(request_body)
+            response = "HTTP/1.1 201 Created\r\n\r\n"
+            conn.sendall(response.encode())
 
 
 def main():
