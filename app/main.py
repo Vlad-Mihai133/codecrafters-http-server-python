@@ -15,8 +15,15 @@ def main():
     if data_split[0].split(b" ")[1] == b"/" or data_split[0].split(b" ")[1] == b"":
         conn.sendall(response.encode())
     else:
-        response = "HTTP/1.1 404 Not Found\r\n\r\n"
-        conn.sendall(response.encode())
+        request_target = data_split[0].split(b" ")[1]
+        request_target_split = request_target.split(b"/")
+        if request_target_split[1] == b"echo" and len(request_target_split) == 3:
+            text = request_target_split[2]
+            response = b"HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: 3\r\n\r\n" + text
+            conn.sendall(response)
+        else:
+            response = "HTTP/1.1 404 Not Found\r\n\r\n"
+            conn.sendall(response.encode())
 
 
 if __name__ == "__main__":
