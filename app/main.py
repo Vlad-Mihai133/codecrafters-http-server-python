@@ -70,6 +70,9 @@ def handle(conn, addr):
         else:
             response = "HTTP/1.1 404 Not Found\r\n\r\n"
             conn.sendall(response.encode())
+    else:
+        response = "HTTP/1.1 404 Not Found\r\n\r\n"
+        conn.sendall(response.encode())
 
 
 def main():
