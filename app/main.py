@@ -40,9 +40,9 @@ def handle(conn, addr):
             try:
                 with open(f"{dir_name}{file_name}", "r") as file:
                     content = file.read()
-                    content_length = str(len(content))
-                    response = (f"HTTP/1.1 200 OK\r\nContent-Type: application/octet-stream\r\nContent-Length:"
-                                f" {content_length}\r\n\r\n{content}")
+                content_length = str(len(content))
+                response = (f"HTTP/1.1 200 OK\r\nContent-Type: application/octet-stream\r\nContent-Length:"
+                            f" {content_length}\r\n\r\n{content}")
             except FileNotFoundError as e:
                 response = "HTTP/1.1 404 Not Found\r\n\r\n"
             finally:
