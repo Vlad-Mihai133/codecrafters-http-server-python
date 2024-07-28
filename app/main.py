@@ -18,13 +18,18 @@ def handle(conn, addr):
         else:
             request_target = data_split[0].split(b" ")[1]
             request_target_split = request_target.split(b"/")
-            if request_target_split[1] == b"echo" and len(request_target_split) == 3:
+            if request_target_split[1] == b"echo":
                 # Here we just extract the string from /echo/{str} request target
                 # after which we respond with that same {str} as a body message
-                text = request_target_split[2].decode()
+                text = request_target[6:].decode()
                 content_length = str(len(text))
-                response = ("HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: " + content_length
-                            + "\r\n\r\n" + text)
+                response = "HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\n"
+                accept_encoding = re.search(r"Accept-Encoding: ([\w./!@#$%^&*()+=-]*)",
+                                            data_split[1].decode()).group()
+                encoding_protocol = accept_encoding.split(" ")[1]
+                if encoding_protocol == "gzip":
+                    response = response + "Content-Encoding: gzip\r\n"
+                response = response + f"Content-Length: {content_length}\r\n\r\n{text}"
                 conn.sendall(response.encode())
             elif request_target == b"/user-agent":
                 # I used regex here to search for User-Agent literal string in case there would be more
@@ -57,6 +62,7 @@ def handle(conn, addr):
         response = "HTTP/1.1 201 Created\r\n\r\n"
         request_target = data_split[0].split(b" ")[1]
         request_target_split = request_target.split(b"/")
+        # We extract the body from the HTTP request
         request_body = data[data.find(b"\r\n\r\n") + 4:]
         print(request_body.decode())
         if request_target_split[1] == b"files":
