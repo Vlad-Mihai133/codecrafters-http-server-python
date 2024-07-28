@@ -1,6 +1,7 @@
 import socket
 import re
 import threading
+import sys
 
 HOST = "localhost"
 PORT = 4221
@@ -33,6 +34,19 @@ def handle(conn, addr):
             response = ("HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: " + content_length
                         + "\r\n\r\n" + text)
             conn.sendall(response.encode())
+        elif request_target_split[1] == b"files":
+            dir_name = sys.argv[2]
+            file_name = request_target[7:]
+            try:
+                with open(f"/{dir_name}/{file_name}", "rb") as file:
+                    content = file.read()
+                    content_length = str(len(content))
+                    response = (f"HTTP/1.1 200 OK\r\nContent-Type: application/octet-stream\r\nContent-Length:"
+                                f" {content_length}\r\n\r\n{content}")
+            except FileNotFoundError as e:
+                response = "HTTP/1.1 404 Not Found\r\n\r\n"
+            finally:
+                conn.sendall(response.encode())
         else:
             response = "HTTP/1.1 404 Not Found\r\n\r\n"
             conn.sendall(response.encode())
