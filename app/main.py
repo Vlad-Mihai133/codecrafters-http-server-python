@@ -18,11 +18,11 @@ def main():
         request_target = data_split[0].split(b" ")[1]
         request_target_split = request_target.split(b"/")
         if request_target_split[1] == b"echo" and len(request_target_split) == 3:
-            text = request_target_split[2]
-            content_length = len(text).to_bytes()
-            response = (b"HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: " + content_length
-                        + b"\r\n\r\n" + text)
-            conn.sendall(response)
+            text = request_target_split[2].decode()
+            content_length = str(len(text))
+            response = ("HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: " + content_length
+                        + "\r\n\r\n" + text)
+            conn.sendall(response.encode())
         else:
             response = "HTTP/1.1 404 Not Found\r\n\r\n"
             conn.sendall(response.encode())
