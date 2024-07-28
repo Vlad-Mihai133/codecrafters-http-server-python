@@ -30,7 +30,7 @@ def handle(conn, addr):
                     "Content-Encoding: invalid-encoding"
                 encoding_protocol = filter(lambda x: x == "gzip", accept_encoding.split(" "))
 
-                if any(encoding_protocol):
+                if encoding_protocol:
                     response = response + "Content-Encoding: gzip\r\n"
                 response = response + f"Content-Length: {content_length}\r\n\r\n{text}"
                 conn.sendall(response.encode())
