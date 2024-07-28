@@ -24,7 +24,7 @@ def handle(conn, addr):
                 # after which we respond with that same {str} as a body message
                 text = request_target[6:].decode()
 
-                response = "HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\n"
+                response = "HTTP/1.1 200 OK\r\n"
                 accept_encoding = re.search(r"Accept-Encoding: ([\w./!@#$%^&*()+=?,;:' -]*)",
                                             data_split[1].decode())
                 accept_encoding = accept_encoding.group() if accept_encoding is not None else\
@@ -35,7 +35,7 @@ def handle(conn, addr):
                     response = response + "Content-Encoding: gzip\r\n"
                     text = gzip.compress(text.encode())
 
-                response = response + f"Content-Length: {len(text)}\r\n\r\n{text}"
+                response = response + f"Content-Type: text/plain\r\nContent-Length: {len(text)}\r\n\r\n{text}"
                 conn.sendall(response.encode())
             elif request_target == b"/user-agent":
                 # I used regex here to search for User-Agent literal string in case there would be more
