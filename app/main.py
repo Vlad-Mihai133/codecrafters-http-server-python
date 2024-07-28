@@ -11,7 +11,7 @@ PORT = 4221
 def handle(conn, addr):
     data = conn.recv(2048)
     data_split = data.split(b"\r\n", maxsplit=1)
-    if data_split[0].split(b" ")[0] == "GET":
+    if data_split[0].split(b" ")[0] == b"GET":
         response = "HTTP/1.1 200 OK\r\n\r\n"
         if data_split[0].split(b" ")[1] == b"/" or data_split[0].split(b" ")[1] == b"":
             conn.sendall(response.encode())
@@ -53,7 +53,7 @@ def handle(conn, addr):
             else:
                 response = "HTTP/1.1 404 Not Found\r\n\r\n"
                 conn.sendall(response.encode())
-    elif data_split[0].split(b" ")[0] == "POST":
+    elif data_split[0].split(b" ")[0] == b"POST":
         response = "HTTP/1.1 201 Created\r\n\r\n"
         request_target = data_split[0].split(b" ")[1]
         request_target_split = request_target.split(b"/")
