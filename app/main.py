@@ -22,7 +22,7 @@ def handle(conn, addr):
             if request_target_split[1] == b"echo":
                 # Here we just extract the string from /echo/{str} request target
                 # after which we respond with that same {str} as a body message
-                text = request_target[6:].decode()
+                text = request_target[6:]
 
                 response = "HTTP/1.1 200 OK\r\n"
                 accept_encoding = re.search(r"Accept-Encoding: ([\w./!@#$%^&*()+=?,;:' -]*)",
@@ -33,8 +33,8 @@ def handle(conn, addr):
                 print(encoding_protocol)
                 if encoding_protocol:
                     response = response + "Content-Encoding: gzip\r\n"
-                    text = gzip.compress(text.encode())
-                    print(len(text))
+                    text = gzip.compress(text)
+
                 response = response + f"Content-Type: text/plain\r\nContent-Length: {len(text)}\r\n\r\n{text}"
                 conn.sendall(response.encode())
             elif request_target == b"/user-agent":
