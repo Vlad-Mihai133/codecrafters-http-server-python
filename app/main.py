@@ -67,6 +67,9 @@ def handle(conn, addr):
                 file.write(request_body)
             response = "HTTP/1.1 201 Created\r\n\r\n"
             conn.sendall(response.encode())
+        else:
+            response = "HTTP/1.1 404 Not Found\r\n\r\n"
+            conn.sendall(response.encode())
 
 
 def main():
