@@ -57,7 +57,7 @@ def handle(conn, addr):
         response = "HTTP/1.1 201 Created\r\n\r\n"
         request_target = data_split[0].split(b" ")[1]
         request_target_split = request_target.split(b"/")
-        request_body = data_split[1].split(b"\r\n\r\n")[1]
+        request_body = data_split[1].split(b"\r\n\n")[1]
         print(request_body.decode())
         if request_target_split[1] == b"files":
             # in command-line: ./your_program.sh --directory {directory_name}
