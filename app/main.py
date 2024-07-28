@@ -38,7 +38,7 @@ def handle(conn, addr):
             dir_name = sys.argv[2]
             file_name = request_target[7:]
             try:
-                with open(f"/{dir_name}/{file_name}", "rb") as file:
+                with open(f"{dir_name}{file_name}", "r") as file:
                     content = file.read()
                     content_length = str(len(content))
                     response = (f"HTTP/1.1 200 OK\r\nContent-Type: application/octet-stream\r\nContent-Length:"
