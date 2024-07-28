@@ -33,7 +33,8 @@ def handle(conn, addr):
                 print(encoding_protocol)
                 if encoding_protocol:
                     response = response + "Content-Encoding: gzip\r\n"
-                    text = zlib.compress(text.encode())
+                    text = zlib.compress(text.encode()).decode()
+                    content_length = str(len(text))
                 response = response + f"Content-Length: {content_length}\r\n\r\n{text}"
                 conn.sendall(response.encode())
             elif request_target == b"/user-agent":
