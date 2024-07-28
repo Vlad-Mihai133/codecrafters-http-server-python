@@ -58,6 +58,7 @@ def handle(conn, addr):
         request_target = data_split[0].split(b" ")[1]
         request_target_split = request_target.split(b"/")
         request_body = data_split[1].split(b"\r\n\r\n")[1]
+        print(request_body.decode())
         if request_target_split[1] == b"files":
             # in command-line: ./your_program.sh --directory {directory_name}
             dir_name = sys.argv[2]
