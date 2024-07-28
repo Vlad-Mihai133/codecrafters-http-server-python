@@ -3,7 +3,7 @@ import re
 import threading
 import sys
 import gzip
-import zlib
+
 
 HOST = "localhost"
 PORT = 4221
@@ -33,7 +33,7 @@ def handle(conn, addr):
                 print(encoding_protocol)
                 if encoding_protocol:
                     response = response + "Content-Encoding: gzip\r\n"
-                    text = zlib.compress(text.encode())
+                    text = gzip.compress(text.encode())
                     content_length = str(len(text))
                 response = response + f"Content-Length: {content_length}\r\n\r\n{text}"
                 conn.sendall(response.encode())
